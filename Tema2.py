@@ -118,8 +118,9 @@ def matrix_sym(n):
 
   # populate the matrix with values
   for i in range(n):
-      for j in range(n):
+      for j in range(i+1):
           matrix[i][j] = random.random() * 100
+          matrix[j][i] = matrix[i][j]
   return matrix
 
 def matrix_sym_pos(n):
@@ -160,12 +161,14 @@ def check_cholesky(A, D, A_init):
   # C22 <- C02 * C20 + C12 * C21 + C22 * 1
 
   # (L*D) * L^T
+  print('n:',n)
   for i in range(n):
     for j in range(n):
       sum = 0
       for k in range(min(i,j) + 1):
         sum += A[k][i] * (A[j][k] if j!=k else 1)
         
+      print(sum, ';', A_init[i][j])
       if abs(sum - A_init[i][j]) > eps:
         return 'Matrices not equal'
 
@@ -197,12 +200,14 @@ def bullet1_solve():
       A = eval(matrix)
     A_init = copy.deepcopy(A)
 
+    print('\n'.join([' '.join(['{:14f}'.format(cell) for cell in row]) for row in A_init]))
+
     answer = 'Saved input:\n'
     answer += f'eps: {eps}\n'
     answer += f'n: {n}\n'
     answer += f'b: {str(b)}\n'
     answer += 'A: \n'
-    answer += '\n'.join([' '.join([str(cell) for cell in row]) for row in A])
+    answer += '\n'.join([' '.join(['{:14f}'.format(cell) for cell in row]) for row in A])
 
     global content
     tk.Label(content,
@@ -268,14 +273,14 @@ def bullet2():
       LT_matrix[i][i] = 1
       for j in range(i):
         L_matrix[i][j] = A[i][j]
-        LT_matrix[j][j] = A[i][j]
+        LT_matrix[j][i] = A[i][j]
 
     answer = 'L:\n'
-    answer += '\n'.join([' '.join([str(cell) for cell in row]) for row in L_matrix])
+    answer += '\n'.join([' '.join(['{:14f}'.format(cell) for cell in row]) for row in L_matrix])
     answer += '\nD:\n'
-    answer += '\n'.join([' '.join([str(cell) for cell in row]) for row in D_matrix])
+    answer += '\n'.join([' '.join(['{:14f}'.format(cell) for cell in row]) for row in D_matrix])
     answer += '\nLT:\n'
-    answer += '\n'.join([' '.join([str(cell) for cell in row]) for row in LT_matrix])
+    answer += '\n'.join([' '.join(['{:14f}'.format(cell) for cell in row]) for row in LT_matrix])
 
     content = tk.Frame()
     content.pack(side='left')
@@ -336,9 +341,9 @@ def bullet5():
     x = np.linalg.solve(A, b)
 
     answer = 'L:\n'
-    answer += '\n'.join([' '.join([str(cell) for cell in row]) for row in L])
+    answer += '\n'.join([' '.join(['{:14f}'.format(cell) for cell in row]) for row in L])
     answer += '\nU:\n'
-    answer += '\n'.join([' '.join([str(cell) for cell in row]) for row in U])
+    answer += '\n'.join([' '.join(['{:14f}'.format(cell) for cell in row]) for row in U])
     answer += '\nx:\n'
     answer += str(x)
 
@@ -370,7 +375,6 @@ def bullet6():
                 padx=30,
                 text=answer).grid(row=0)
 
-#TODO: nu merge aici:
 def bulletbonus():
     global content
     content.destroy()
