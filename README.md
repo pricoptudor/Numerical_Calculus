@@ -1,1 +1,2 @@
-# Numerical_Calculus
+# 🔥 Numerical_Calculus 🔥
+## 🧨 TnT Team 🧨
