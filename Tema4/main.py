@@ -35,7 +35,7 @@ def append_or_add(m, val, i, j, p):
         if j_i == j:
             m[i][index] = (val_i + val, j)
 
-            if is_zero(m[i][index][1], p):
+            if is_zero(m[i][index][0], p):
                 m[i].pop(index)
 
             exists = True
